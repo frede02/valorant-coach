@@ -112,7 +112,6 @@ function createPlayer(clip) {
         width: '100%',
         height: '100%',
         videoId: clip.videoId,
-        host: 'https://www.youtube.com',
         playerVars: {
             start: clip.start,
             end: clip.end,
@@ -120,15 +119,36 @@ function createPlayer(clip) {
             rel: 0,
             modestbranding: 1,
             iv_load_policy: 3,
-            enablejsapi: 1,
-            origin: window.location.origin
+            enablejsapi: 1
         },
         events: {
             onReady: function(e) {
+                ytPlayer = e.target;
                 e.target.setVolume(savedVolume);
             }
         }
     });
+}
+
+function applyVolume(vol) {
+    // Méthode 1: API YouTube Player
+    try {
+        if (ytPlayer && typeof ytPlayer.setVolume === 'function') {
+            ytPlayer.setVolume(vol);
+        }
+    } catch(e) {}
+
+    // Méthode 2: postMessage direct à l'iframe YouTube (toujours essayer en backup)
+    try {
+        const iframe = document.querySelector('.gmr-video-wrap iframe');
+        if (iframe && iframe.contentWindow) {
+            iframe.contentWindow.postMessage(JSON.stringify({
+                event: 'command',
+                func: 'setVolume',
+                args: [vol]
+            }), '*');
+        }
+    } catch(e) {}
 }
 
 function shuffleArray(arr) {
@@ -183,7 +203,10 @@ function loadClip(index) {
         const videoWrap = document.querySelector('.gmr-video-wrap');
         videoWrap.innerHTML = `
             <div class="video-overlay-top"></div>
-            <div id="yt-player" style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:var(--text-muted)">Chargement...</div>
+            <iframe id="yt-fallback"
+                src="https://www.youtube.com/embed/${clip.videoId}?start=${clip.start}&end=${clip.end}&autoplay=1&rel=0&modestbranding=1&iv_load_policy=3&enablejsapi=1"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen style="width:100%;height:100%;border:none"></iframe>
             <div class="video-overlay-bottom"></div>`;
     }
 
@@ -197,9 +220,7 @@ function loadClip(index) {
         slider.addEventListener('input', function() {
             savedVolume = parseInt(this.value);
             label.textContent = savedVolume + '%';
-            if (ytPlayer && ytPlayer.setVolume) {
-                ytPlayer.setVolume(savedVolume);
-            }
+            applyVolume(savedVolume);
         });
         volEl.dataset.init = '1';
     }

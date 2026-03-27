@@ -112,6 +112,7 @@ function createPlayer(clip) {
         width: '100%',
         height: '100%',
         videoId: clip.videoId,
+        host: 'https://www.youtube.com',
         playerVars: {
             start: clip.start,
             end: clip.end,
@@ -119,6 +120,7 @@ function createPlayer(clip) {
             rel: 0,
             modestbranding: 1,
             iv_load_policy: 3,
+            enablejsapi: 1,
             origin: window.location.origin
         },
         events: {

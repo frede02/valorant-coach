@@ -151,6 +151,57 @@ function applyVolume(vol) {
     } catch(e) {}
 }
 
+function initVolumeSlider() {
+    const track = document.getElementById('vol-track');
+    const fill = document.getElementById('vol-fill');
+    const thumb = document.getElementById('vol-thumb');
+    const label = document.getElementById('vol-label');
+
+    function setVolume(pct) {
+        pct = Math.max(0, Math.min(100, pct));
+        savedVolume = Math.round(pct);
+        fill.style.width = pct + '%';
+        thumb.style.left = pct + '%';
+        label.textContent = savedVolume + '%';
+        applyVolume(savedVolume);
+    }
+
+    setVolume(savedVolume);
+
+    function handleMove(clientX) {
+        const rect = track.getBoundingClientRect();
+        const pct = ((clientX - rect.left) / rect.width) * 100;
+        setVolume(pct);
+    }
+
+    track.addEventListener('click', function(e) {
+        handleMove(e.clientX);
+    });
+
+    let dragging = false;
+    thumb.addEventListener('mousedown', function(e) {
+        dragging = true;
+        e.preventDefault();
+    });
+    document.addEventListener('mousemove', function(e) {
+        if (dragging) handleMove(e.clientX);
+    });
+    document.addEventListener('mouseup', function() {
+        dragging = false;
+    });
+
+    thumb.addEventListener('touchstart', function(e) {
+        dragging = true;
+        e.preventDefault();
+    });
+    document.addEventListener('touchmove', function(e) {
+        if (dragging) handleMove(e.touches[0].clientX);
+    });
+    document.addEventListener('touchend', function() {
+        dragging = false;
+    });
+}
+
 function shuffleArray(arr) {
     const a = [...arr];
     for (let i = a.length - 1; i > 0; i--) {
@@ -210,18 +261,10 @@ function loadClip(index) {
             <div class="video-overlay-bottom"></div>`;
     }
 
-    // Volume slider
+    // Volume slider custom
     const volEl = document.getElementById('gmr-volume');
     if (volEl && !volEl.dataset.init) {
-        const slider = volEl.querySelector('.vol-slider');
-        const label = volEl.querySelector('.vol-value');
-        slider.value = savedVolume;
-        label.textContent = savedVolume + '%';
-        slider.addEventListener('input', function() {
-            savedVolume = parseInt(this.value);
-            label.textContent = savedVolume + '%';
-            applyVolume(savedVolume);
-        });
+        initVolumeSlider();
         volEl.dataset.init = '1';
     }
 

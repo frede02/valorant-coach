@@ -82,6 +82,53 @@ let gameState = {
     guesses: []
 };
 
+let ytPlayer = null;
+let ytReady = false;
+let savedVolume = 50;
+let pendingClip = null;
+
+// Charger l'API YouTube IFrame
+const ytScript = document.createElement('script');
+ytScript.src = 'https://www.youtube.com/iframe_api';
+document.head.appendChild(ytScript);
+
+window.onYouTubeIframeAPIReady = function() {
+    ytReady = true;
+    if (pendingClip) {
+        createPlayer(pendingClip);
+        pendingClip = null;
+    }
+};
+
+function createPlayer(clip) {
+    const videoWrap = document.querySelector('.gmr-video-wrap');
+    // Garder les overlays, remplacer le contenu vidéo
+    videoWrap.innerHTML = `
+        <div class="video-overlay-top"></div>
+        <div id="yt-player"></div>
+        <div class="video-overlay-bottom"></div>`;
+
+    ytPlayer = new YT.Player('yt-player', {
+        width: '100%',
+        height: '100%',
+        videoId: clip.videoId,
+        playerVars: {
+            start: clip.start,
+            end: clip.end,
+            autoplay: 1,
+            rel: 0,
+            modestbranding: 1,
+            iv_load_policy: 3,
+            origin: window.location.origin
+        },
+        events: {
+            onReady: function(e) {
+                e.target.setVolume(savedVolume);
+            }
+        }
+    });
+}
+
 function shuffleArray(arr) {
     const a = [...arr];
     for (let i = a.length - 1; i > 0; i--) {
@@ -126,14 +173,34 @@ function loadClip(index) {
 
     const clip = gameState.clips[index];
 
-    const videoWrap = document.querySelector('.gmr-video-wrap');
-    videoWrap.innerHTML = `
-        <div class="video-overlay-top"></div>
-        <iframe
-            src="https://www.youtube-nocookie.com/embed/${clip.videoId}?start=${clip.start}&end=${clip.end}&autoplay=1&rel=0&modestbranding=1&iv_load_policy=3"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowfullscreen></iframe>
-        <div class="video-overlay-bottom"></div>`;
+    // Utiliser l'API YouTube Player si prête, sinon fallback iframe
+    if (ytReady) {
+        createPlayer(clip);
+    } else {
+        pendingClip = clip;
+        const videoWrap = document.querySelector('.gmr-video-wrap');
+        videoWrap.innerHTML = `
+            <div class="video-overlay-top"></div>
+            <div id="yt-player" style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:var(--text-muted)">Chargement...</div>
+            <div class="video-overlay-bottom"></div>`;
+    }
+
+    // Volume slider
+    const volEl = document.getElementById('gmr-volume');
+    if (volEl && !volEl.dataset.init) {
+        const slider = volEl.querySelector('.vol-slider');
+        const label = volEl.querySelector('.vol-value');
+        slider.value = savedVolume;
+        label.textContent = savedVolume + '%';
+        slider.addEventListener('input', function() {
+            savedVolume = parseInt(this.value);
+            label.textContent = savedVolume + '%';
+            if (ytPlayer && ytPlayer.setVolume) {
+                ytPlayer.setVolume(savedVolume);
+            }
+        });
+        volEl.dataset.init = '1';
+    }
 
     const hints = document.getElementById('gmr-hints');
     hints.innerHTML = `

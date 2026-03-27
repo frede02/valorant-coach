@@ -92,6 +92,61 @@
     color: var(--text-muted);
 }
 
+/* Volume control */
+.gmr-volume {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-bottom: 1rem;
+    max-width: 250px;
+}
+
+.vol-icon {
+    font-size: 1.1rem;
+    flex-shrink: 0;
+}
+
+.vol-slider {
+    -webkit-appearance: none;
+    appearance: none;
+    flex: 1;
+    height: 6px;
+    border-radius: 3px;
+    background: var(--border);
+    outline: none;
+    cursor: pointer;
+}
+
+.vol-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--accent);
+    cursor: pointer;
+    transition: transform 0.15s;
+}
+
+.vol-slider::-webkit-slider-thumb:hover {
+    transform: scale(1.2);
+}
+
+.vol-slider::-moz-range-thumb {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--accent);
+    border: none;
+    cursor: pointer;
+}
+
+.vol-value {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    min-width: 35px;
+}
+
 /* Hints */
 .gmr-hints {
     display: flex;

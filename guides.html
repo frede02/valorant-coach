@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guides — ValoCoach</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <a href="index.html" class="nav-logo">VALO<span>COACH</span></a>
+        <div class="nav-links">
+            <a href="index.html">Accueil</a>
+            <a href="analyze.html">Analyse</a>
+            <a href="guides.html" class="active">Guides</a>
+            <a href="guess-rank.html">Guess My Rank</a>
+        </div>
+    </nav>
+
+    <main class="page">
+        <h1>Guides & <span class="accent">Tips</span></h1>
+        <p class="page-desc">Tout ce qu'il faut savoir pour progresser, trié par catégorie.</p>
+
+        <div class="guides-nav" id="tabs"></div>
+
+        <div class="guide-detail" id="guide-detail">
+            <button class="close-btn" onclick="closeDetail()">✕</button>
+            <div id="guide-detail-content"></div>
+        </div>
+
+        <div class="guides-grid" id="guides-grid"></div>
+    </main>
+
+    <footer>
+        <p>ValoCoach — Projet perso, non affilié à Riot Games</p>
+    </footer>
+
+    <script src="js/guides.js"></script>
+</body>
+</html>

@@ -1,0 +1,323 @@
+/* === GUESS MY RANK === */
+
+.gmr-stats {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.stat-box {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1rem 1.5rem;
+    text-align: center;
+    min-width: 90px;
+}
+
+.stat-box.big {
+    padding: 1.5rem 2rem;
+    min-width: 120px;
+}
+
+.stat-num {
+    display: block;
+    font-size: 1.8rem;
+    font-weight: 900;
+    color: var(--accent);
+    line-height: 1;
+}
+
+.stat-box.big .stat-num {
+    font-size: 2.5rem;
+}
+
+.stat-label {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 0.3rem;
+    display: block;
+}
+
+/* Video with title overlay */
+.gmr-video-wrap {
+    background: #000;
+    border-radius: 12px;
+    overflow: hidden;
+    aspect-ratio: 16/9;
+    max-width: 800px;
+    margin-bottom: 1.5rem;
+    position: relative;
+}
+
+.gmr-video-wrap iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    display: block;
+}
+
+/* Overlay pour cacher le titre YouTube en haut */
+.video-overlay-top {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    background: linear-gradient(to bottom, #000 60%, transparent);
+    z-index: 10;
+    pointer-events: none;
+}
+
+/* Overlay pour cacher les suggestions YouTube en bas */
+.video-overlay-bottom {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 50px;
+    background: linear-gradient(to top, #000 40%, transparent);
+    z-index: 10;
+    pointer-events: none;
+}
+
+.gmr-video {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+}
+
+/* Hints */
+.gmr-hints {
+    display: flex;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.hint-chip {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 0.4rem 1rem;
+    font-size: 0.82rem;
+    color: var(--text-muted);
+}
+
+.hint-chip strong {
+    color: var(--text);
+}
+
+/* Rank picker with real icons */
+.gmr-pick h3 {
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+    font-weight: 700;
+}
+
+.rank-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+    gap: 0.6rem;
+    max-width: 800px;
+}
+
+.rank-btn {
+    background: var(--bg-card);
+    border: 2px solid var(--border);
+    border-radius: 10px;
+    padding: 0.8rem 0.5rem 0.6rem;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.2s;
+    font-family: inherit;
+    color: var(--text);
+    font-size: 0.82rem;
+    font-weight: 600;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+.rank-btn:hover {
+    border-color: var(--accent);
+    background: rgba(255, 70, 85, 0.08);
+    transform: translateY(-3px);
+    box-shadow: 0 4px 15px rgba(255, 70, 85, 0.15);
+}
+
+.rank-icon-img {
+    width: 48px;
+    height: 48px;
+    object-fit: contain;
+}
+
+.rank-name {
+    font-size: 0.82rem;
+}
+
+/* Result */
+.gmr-result {
+    display: none;
+    max-width: 500px;
+    margin-top: 1.5rem;
+}
+
+.gmr-result.visible {
+    display: block;
+    animation: slideUp 0.4s ease;
+}
+
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.result-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 2rem;
+    text-align: center;
+}
+
+.result-card.perfect {
+    border-color: var(--success);
+    box-shadow: 0 0 30px rgba(74, 222, 128, 0.15);
+}
+
+.result-card.close {
+    border-color: var(--warning);
+    box-shadow: 0 0 30px rgba(251, 191, 36, 0.15);
+}
+
+.result-card.wrong {
+    border-color: var(--accent);
+    box-shadow: 0 0 30px rgba(255, 70, 85, 0.15);
+}
+
+.result-card h3 {
+    font-size: 1.3rem;
+    margin-bottom: 0.5rem;
+}
+
+.result-card p {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+}
+
+.result-ranks {
+    display: flex;
+    justify-content: center;
+    gap: 2.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.result-rank-box {
+    text-align: center;
+}
+
+.result-rank-label {
+    display: block;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 0.3rem;
+}
+
+.result-rank-value {
+    font-size: 1rem;
+    font-weight: 700;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+.result-rank-img {
+    width: 56px;
+    height: 56px;
+    object-fit: contain;
+}
+
+/* End screen */
+.gmr-end {
+    display: none;
+    text-align: center;
+    padding: 3rem 0;
+}
+
+.gmr-end.visible {
+    display: block;
+    animation: slideUp 0.5s ease;
+}
+
+.gmr-end h2 {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+}
+
+.end-stats {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+    margin-bottom: 2rem;
+}
+
+.end-verdict {
+    font-size: 1.1rem;
+    color: var(--text-muted);
+    margin-bottom: 2rem;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Hide elements */
+.gmr-pick.hidden,
+.gmr-container.hidden {
+    display: none;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .rank-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .rank-icon-img {
+        width: 36px;
+        height: 36px;
+    }
+
+    .gmr-stats {
+        gap: 0.5rem;
+    }
+
+    .stat-box {
+        padding: 0.7rem 1rem;
+        min-width: 70px;
+    }
+
+    .end-stats {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .result-ranks {
+        gap: 1rem;
+    }
+
+    .result-rank-img {
+        width: 44px;
+        height: 44px;
+    }
+}

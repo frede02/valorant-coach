@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guess My Rank — ValoCoach</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/guess-rank.css">
+</head>
+<body>
+    <nav class="navbar">
+        <a href="index.html" class="nav-logo">VALO<span>COACH</span></a>
+        <div class="nav-links">
+            <a href="index.html">Accueil</a>
+            <a href="analyze.html">Analyse</a>
+            <a href="guides.html">Guides</a>
+            <a href="guess-rank.html" class="active">Guess My Rank</a>
+        </div>
+    </nav>
+
+    <main class="page">
+        <h1>Guess My <span class="accent">Rank</span></h1>
+        <p class="page-desc">Regarde le clip et devine le rang du joueur. Teste ton game sense !</p>
+
+        <div class="gmr-stats" id="gmr-stats">
+            <div class="stat-box">
+                <span class="stat-num" id="stat-score">0</span>
+                <span class="stat-label">Score</span>
+            </div>
+            <div class="stat-box">
+                <span class="stat-num" id="stat-streak">0</span>
+                <span class="stat-label">Streak</span>
+            </div>
+            <div class="stat-box">
+                <span class="stat-num" id="stat-clip">1</span>
+                <span class="stat-label">Clip</span>
+            </div>
+        </div>
+
+        <div class="gmr-container" id="gmr-container">
+            <!-- Video player -->
+            <div class="gmr-video-wrap">
+                <div class="gmr-video" id="gmr-video"></div>
+            </div>
+
+            <!-- Clip info hints -->
+            <div class="gmr-hints" id="gmr-hints"></div>
+
+            <!-- Rank selection -->
+            <div class="gmr-pick" id="gmr-pick">
+                <h3>Quel est son rang ?</h3>
+                <div class="rank-grid" id="rank-grid"></div>
+            </div>
+
+            <!-- Result -->
+            <div class="gmr-result" id="gmr-result">
+                <div class="result-card" id="result-card">
+                    <div class="result-icon" id="result-icon"></div>
+                    <h3 id="result-title"></h3>
+                    <p id="result-text"></p>
+                    <div class="result-ranks">
+                        <div class="result-rank-box">
+                            <span class="result-rank-label">Ta réponse</span>
+                            <span class="result-rank-value" id="result-guess"></span>
+                        </div>
+                        <div class="result-rank-box">
+                            <span class="result-rank-label">Vrai rang</span>
+                            <span class="result-rank-value" id="result-real"></span>
+                        </div>
+                    </div>
+                    <button class="btn" onclick="nextClip()">Clip suivant</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- End screen -->
+        <div class="gmr-end" id="gmr-end">
+            <h2>Session terminée !</h2>
+            <div class="end-stats">
+                <div class="stat-box big">
+                    <span class="stat-num" id="end-score">0</span>
+                    <span class="stat-label">Score total</span>
+                </div>
+                <div class="stat-box big">
+                    <span class="stat-num" id="end-exact">0</span>
+                    <span class="stat-label">Exact</span>
+                </div>
+                <div class="stat-box big">
+                    <span class="stat-num" id="end-best">0</span>
+                    <span class="stat-label">Meilleur streak</span>
+                </div>
+            </div>
+            <p class="end-verdict" id="end-verdict"></p>
+            <button class="btn" onclick="restartGame()">Rejouer</button>
+        </div>
+    </main>
+
+    <footer>
+        <p>ValoCoach — Projet perso, non affilié à Riot Games</p>
+    </footer>
+
+    <script src="js/guess-rank.js"></script>
+</body>
+</html>
